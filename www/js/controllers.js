@@ -8,6 +8,10 @@ angular.module('starter.controllers', [])
   });
 })
 
+.controller('ExperimentCtrl', function($scope, experiment) {
+  $scope.experiment = experiment;
+})
+
 .controller('PolicyCtrl', function($scope, policy) {
   $scope.policy = policy;
 })
