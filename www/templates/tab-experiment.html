@@ -10,6 +10,13 @@
         <p>
           {{experiment.description}}
         </p>
+        <p>
+          <span
+            ng-click="favorite = !favorite"
+            style="font-size: 24px;"
+            ng-class="{ 'red ion-android-favorite': favorite, 'ion-android-favorite-outline': !favorite }"
+            class="icon"></span>
+        </p>
       </div>
 
     </div>
