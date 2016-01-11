@@ -1,1 +1,7 @@
-/* Empty. Add your own CSS if you like */
+.featured.item { }
+.featured.item img { opacity: .3 }
+.featured.item .words { text-align: left; position: absolute; top: 0; }
+.featured.item .words h2 { font-size: 36px; font-weight: bold; white-space: normal; padding: 10px; }
+.featured.item .summary-bg { background: white; opacity: .8; height: 100%; width: 100%; }
+.featured.item .summary-bg p { background: white; white-space: normal; padding: 10px; }
+.featured.item .summary-bg p .link { color: blue; }

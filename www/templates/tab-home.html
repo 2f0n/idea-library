@@ -1,9 +1,17 @@
 <ion-view view-title="Home">
   <ion-content>
-    <div class="card">
-      <div class="item item-text-wrap">
-        Welcome to the PANA Idea Library!
-      </div>
+    <div class="list card">
+      <a href="/#/article">
+        <div class="featured item item-image">
+          <img src="{{featured.photo_url}}">
+          <div class="words">
+              <h2>{{featured.title}}</h2>
+              <div class="summary-bg">
+                <p>{{featured.summary}} <span class="link">Learn More &gt;</span></p>
+              </div>
+          </div>
+        </div>
+      </a>
     </div>
   </ion-content>
 </ion-view>
