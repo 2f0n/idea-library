@@ -1,15 +1,15 @@
 <ion-view view-title="Experiment">
   <ion-content>
     <h1 class="padding">{{experiment.title}}</h1>
-    <p class="padding">{{experiment.summary}}</p>
+    <p class="padding">
+      <strong>{{experiment.location}}</strong><br />{{experiment.summary}}
+    </p>
 
     <div class="list card">
 
       <div class="item item-body">
         <img class="full-image" src="{{experiment.photo_url}}">
-        <p>
-          {{experiment.description}}
-        </p>
+        <p>{{experiment.description}}</p>
         <p>
           <span
             ng-click="favorite = !favorite"

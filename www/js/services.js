@@ -23,8 +23,9 @@ angular.module('starter.services', [])
   function parseResult(response) {
     return _.chain(response.data).map(function(data) {
 
-      if(data.body.length && data.title.length && data.field_summary.length && data.field_cover_photo.length && data.uuid.length)
+      if(data.field_location.length && data.body.length && data.title.length && data.field_summary.length && data.field_cover_photo.length && data.uuid.length)
         return {
+          location: data.field_location[0].value,
           title: data.title[0].value,
           summary: data.field_summary[0].value,
           photo_url: data.field_cover_photo[0].url,
