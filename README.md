@@ -6,6 +6,7 @@
 git clone <github repo>/idea-library.git
 cd idea-library
 npm install
+bower install (this loads javascript libraries into the www/lib folder)
 
 // web version
 ionic serve
