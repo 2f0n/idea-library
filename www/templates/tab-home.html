@@ -1,17 +1,22 @@
 <ion-view view-title="Home">
   <ion-content>
     <div class="list card">
-      <a href="#/tab/experiment/{{featured.uuid}}">
         <div class="featured item item-image">
-          <img src="{{featured.photo_url}}">
-          <div class="words">
-              <h2>{{featured.title}}</h2>
-              <div class="summary-bg">
-                <p>{{featured.summary}} <span class="link">Learn More &gt;</span></p>
-              </div>
-          </div>
+          <a href="#/tab/experiment/{{featured.uuid}}">
+            <img src="{{featured.photo_url}}">
+            <div class="words">
+                <h2>{{featured.title}}</h2>
+                <div class="summary-bg">
+                  <p>{{featured.summary}} <span class="link">Learn More &gt;</span></p>
+                </div>
+            </div>
+          </a>
         </div>
-      </a>
+        <div
+          style="white-space: normal;"
+          class="item item-divider">
+          Part of the <strong>{{featured.policy.title}}</strong> Project
+        </div>
     </div>
 
     <div class="list card">

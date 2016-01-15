@@ -59,9 +59,10 @@ angular.module('starter.services', [])
   };
 })
 
-.service('feature', function($http, cache) {
+.service('feature', function($http, cache, policies) {
   function parseResult(response) {
     return {
+      policy_id: response.data[0].field_idea_model[0].target_id,
       title: response.data[0].title[0].value,
       summary: response.data[0].field_summary[0].value,
       photo_url: response.data[0].field_cover_photo[0].url,
@@ -71,7 +72,15 @@ angular.module('starter.services', [])
 
   function get() {
     return cache('feature', function() {
-      return $http.get('/pantheon/featured/experiments.json').then(parseResult);
+      return $http.get('/pantheon/featured/experiments.json').then(function(result) {
+        var experiment = parseResult(result);
+
+        return policies.find(experiment.policy_id).then(function(policy) {
+          experiment.policy = policy;
+          return experiment;
+        });
+
+      });
     });
   }
 
