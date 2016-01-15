@@ -22,18 +22,15 @@ angular.module('starter.services', [])
 .service('experiments', function($http, cache) {
   function parseResult(response) {
     return _.chain(response.data).map(function(data) {
-
-      if(data.field_location.length && data.body.length && data.title.length && data.field_summary.length && data.field_cover_photo.length && data.uuid.length)
-        return {
-          location: data.field_location[0].value,
-          title: data.title[0].value,
-          summary: data.field_summary[0].value,
-          photo_url: data.field_cover_photo[0].url,
-          uuid: data.uuid[0].value,
-          description: data.body[0].value
-        };
-      else
-        return {};
+      return {
+        node_id: data.nid.length ? data.nid[0].value : '',
+        location: data.field_location.length ? data.field_location[0].value : '',
+        title: data.title.length ? data.title[0].value : '',
+        summary: data.field_summary.length ? data.field_summary[0].value : '',
+        photo_url: data.field_cover_photo.length ? data.field_cover_photo[0].url : '',
+        uuid: data.uuid.length ? data.uuid[0].value : '',
+        description: data.body.length ? data.body[0].value : ''
+      };
 
     }).select('title').value(); 
   }
@@ -74,9 +71,10 @@ angular.module('starter.services', [])
   function parseResult(response) {
     return _.map(response.data, function(data) {
       return {
-        title: data.title[0].value,
-        uuid: data.uuid[0].value,
-        description: data.body[0].value
+        node_id: data.nid.length ? data.nid[0].value : '',
+        title: data.title.length ? data.title[0].value : '',
+        uuid: data.uuid.length ? data.uuid[0].value : '',
+        description: data.body.length ? data.body[0].value : ''
       };
     });
   }
