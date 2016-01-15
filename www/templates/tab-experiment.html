@@ -3,19 +3,23 @@
     <h1 class="padding">{{experiment.title}}</h1>
     <p class="padding">
       <strong>{{experiment.location}}</strong>
-      <span ng-show="experiment.start_date">
-        {{experiment.start_date | amDateFormat:'MMM YYYY' }}
+      <span ng-show="experiment.start_date.length">
+        <span ng-show="experiment.start_date">
+          {{experiment.start_date | amDateFormat:'MMM YYYY' }}
+        </span>
+
+        <span ng-show="experiment.ongong">
+          &mdash; Still going
+        </span>
+
+        <span ng-hide="experiment.ongong">
+          &mdash; {{experiment.end_date | amDateFormat:'MMM YYYY' }}
+        </span>
       </span>
 
-      <span ng-show="experiment.ongong">
-        &mdash; Still going
+      <span ng-show="experiment.summary.length">
+        <br />{{experiment.summary}}
       </span>
-
-      <span ng-hide="experiment.ongong">
-        &mdash; {{experiment.end_date | amDateFormat:'MMM YYYY' }}
-      </span>
-
-      <br />{{experiment.summary}}
     </p>
 
     <div class="list card">
@@ -32,6 +36,10 @@
         </p>
       </div>
 
+    </div>
+
+    <div class="padding">
+      Check out more <a href="#/tab/policy/{{policy.uuid}}"><strong>{{policy.title}}</strong></a> stories<br />
     </div>
   </ion-content>
 </ion-view>

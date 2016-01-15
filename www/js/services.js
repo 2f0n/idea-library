@@ -23,15 +23,18 @@ angular.module('starter.services', [])
   function parseResult(response) {
     return _.chain(response.data).map(function(data) {
       return {
+        policy_id: data.field_idea_model.length ? data.field_idea_model[0].target_id: '',
+        node_id: data.nid.length ? data.nid[0].value : '',
+        uuid: data.uuid.length ? data.uuid[0].value : '',
+
         start_date: data.field_start_date.length ? data.field_start_date[0].value : '',
         end_date: data.field_end_date.length ? data.field_end_date[0].value : '',
         is_ongoing: data.field_ongoing.length ? data.field_ongoing[0].value == "1" : false,
-        node_id: data.nid.length ? data.nid[0].value : '',
+
         location: data.field_location.length ? data.field_location[0].value : '',
         title: data.title.length ? data.title[0].value : '',
         summary: data.field_summary.length ? data.field_summary[0].value : '',
         photo_url: data.field_cover_photo.length ? data.field_cover_photo[0].url : '',
-        uuid: data.uuid.length ? data.uuid[0].value : '',
         description: data.body.length ? data.body[0].value : ''
       };
 
@@ -44,8 +47,15 @@ angular.module('starter.services', [])
     });
   }
 
+  function where(params) {
+    return all().then(function(experiments) {
+      return _.where(experiments, params);
+    });
+  }
+
   return {
-    all: all
+    all: all,
+    where: where
   };
 })
 
@@ -74,7 +84,7 @@ angular.module('starter.services', [])
   function parseResult(response) {
     return _.map(response.data, function(data) {
       return {
-        node_id: data.nid.length ? data.nid[0].value : '',
+        id: data.nid.length ? data.nid[0].value : '',
         title: data.title.length ? data.title[0].value : '',
         uuid: data.uuid.length ? data.uuid[0].value : '',
         description: data.body.length ? data.body[0].value : ''
@@ -86,9 +96,16 @@ angular.module('starter.services', [])
     return cache('policies', function() {
       return $http.get('pantheon/policies.json').then(parseResult);
     });
-  };
+  }
+
+  function find(policy_id) {
+    return all().then(function(policies) {
+      return _.find(policies, { id: policy_id });
+    });
+  }
 
   return {
-    all: all
+    all: all,
+    find: find
   };
 });

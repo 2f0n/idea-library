@@ -2,5 +2,14 @@
   <ion-content>
     <h1 class="padding">{{policy.title}}</h1>
     <p class="padding">{{policy.description}}</p>
+
+    <div class="list card">
+      <a
+        ng-repeat="experiment in experiments"
+        href="#/tab/experiment/{{experiment.uuid}}" class="item item-icon-right">
+        <i class="icon ion-chevron-right"></i>
+        {{experiment.title}}<br />{{experiment.location}}
+      </a>
+    </div>
   </ion-content>
 </ion-view>
