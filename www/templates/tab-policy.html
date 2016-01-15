@@ -1,14 +1,27 @@
 <ion-view view-title="Policy">
   <ion-content>
     <h1 class="padding">{{policy.title}}</h1>
-    <p class="padding">{{policy.description}}</p>
+
+    <div class="card">
+      <div
+        style="white-space: normal;"
+        class="item item-divider">
+        What is '{{policy.title}}' all about?
+      </div>
+      <div class="item item-text-wrap">
+        {{policy.description}}
+      </div>
+    </div>
 
     <div class="list card">
+      <div class="item item-divider">
+        Ongoing projects
+      </div>
       <a
         ng-repeat="experiment in experiments"
         href="#/tab/experiment/{{experiment.uuid}}" class="item item-icon-right">
         <i class="icon ion-chevron-right"></i>
-        {{experiment.title}}<br />{{experiment.location}}
+        {{experiment.title}}<br /><strong>{{experiment.location}}</strong>
       </a>
     </div>
   </ion-content>
