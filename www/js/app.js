@@ -24,7 +24,46 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     templateUrl: 'templates/tabs.html'
   })
 
+  .state('tab.policy', {
+    resolve: {
+      policy: function($stateParams, policies) {
+        return policies.all().then(function(all_policies) {
+          return _.find(all_policies, { uuid: $stateParams.id });
+        });
+      }
+    },
+    url: '/policy/:id',
+    views: {
+      'tab-home': {
+        templateUrl: 'templates/tab-policy.html',
+        controller: 'PolicyCtrl'
+      }
+    }
+  })
+
+  .state('tab.experiment', {
+    resolve: {
+      experiment: function($stateParams, experiments) {
+        return experiments.all().then(function(all_experiments) {
+          return _.find(all_experiments, { uuid: $stateParams.id });
+        });
+      }
+    },
+    url: '/experiment/:id',
+    views: {
+      'tab-home': {
+        templateUrl: 'templates/tab-experiment.html',
+        controller: 'ExperimentCtrl'
+      }
+    }
+  })
+
   .state('tab.home', {
+    resolve: {
+      featured: function(feature) {
+        return feature.get();
+      }
+    },
     url: '/home',
     views: {
       'tab-home': {

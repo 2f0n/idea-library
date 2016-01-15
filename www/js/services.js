@@ -1,50 +1,92 @@
 angular.module('starter.services', [])
+.service('cache', function($q) {
+  var cache = function() {
+    var cached_data = {};
 
-.factory('Chats', function() {
-  // Might use a resource here that returns a JSON array
+    return function(id, fn_cache_this) {
+      if(cached_data[id])
+        return cached_data[id];
 
-  // Some fake testing data
-  var chats = [{
-    id: 0,
-    name: 'Ben Sparrow',
-    lastText: 'You on your way?',
-    face: 'img/ben.png'
-  }, {
-    id: 1,
-    name: 'Max Lynx',
-    lastText: 'Hey, it\'s me',
-    face: 'img/max.png'
-  }, {
-    id: 2,
-    name: 'Adam Bradleyson',
-    lastText: 'I should buy a boat',
-    face: 'img/adam.jpg'
-  }, {
-    id: 3,
-    name: 'Perry Governor',
-    lastText: 'Look at my mukluks!',
-    face: 'img/perry.png'
-  }, {
-    id: 4,
-    name: 'Mike Harrington',
-    lastText: 'This is wicked good ice cream.',
-    face: 'img/mike.png'
-  }];
+      if(fn_cache_this) {
+        var result = fn_cache_this();
+        cached_data[id] = result;
+      }
+
+      return cached_data[id];
+    };
+  }();
+
+  return cache;
+})
+
+.service('experiments', function($http, cache) {
+  function parseResult(response) {
+    return _.chain(response.data).map(function(data) {
+
+      if(data.body.length && data.title.length && data.field_summary.length && data.field_cover_photo.length && data.uuid.length)
+        return {
+          title: data.title[0].value,
+          summary: data.field_summary[0].value,
+          photo_url: data.field_cover_photo[0].url,
+          uuid: data.uuid[0].value,
+          description: data.body[0].value
+        };
+      else
+        return {};
+
+    }).select('title').value(); 
+  }
+
+  function all() {
+    return cache('experiments', function() {
+      return $http.get('/pantheon/experiments.json').then(parseResult)
+    });
+  }
 
   return {
-    all: function() {
-      return chats;
-    },
-    remove: function(chat) {
-      chats.splice(chats.indexOf(chat), 1);
-    },
-    get: function(chatId) {
-      for (var i = 0; i < chats.length; i++) {
-        if (chats[i].id === parseInt(chatId)) {
-          return chats[i];
-        }
-      }
-      return null;
-    }
+    all: all
+  };
+})
+
+.service('feature', function($http, cache) {
+  function parseResult(response) {
+    return {
+      title: response.data[0].title[0].value,
+      summary: response.data[0].field_summary[0].value,
+      photo_url: response.data[0].field_cover_photo[0].url,
+      uuid: response.data[0].uuid[0].value
+    };
+  }
+
+  function get() {
+    return cache('feature', function() {
+      return $http.get('/pantheon/featured/experiments.json').then(parseResult);
+    });
+  }
+
+  return {
+    get: get
+  };
+})
+
+.service('policies', function($http, cache) {
+  function parseResult(response) {
+    return _.map(response.data, function(data) {
+      return {
+        title: data.title[0].value,
+        uuid: data.uuid[0].value,
+        description: data.body[0].value
+      };
+    });
+  }
+
+  function all() {
+    return cache('policies', function() {
+      return $http.get('pantheon/policies.json').then(parseResult);
+    });
+  };
+
+  return {
+    all: all
   };
 });
