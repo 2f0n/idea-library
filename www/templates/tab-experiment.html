@@ -2,7 +2,20 @@
   <ion-content>
     <h1 class="padding">{{experiment.title}}</h1>
     <p class="padding">
-      <strong>{{experiment.location}}</strong><br />{{experiment.summary}}
+      <strong>{{experiment.location}}</strong>
+      <span ng-show="experiment.start_date">
+        {{experiment.start_date | amDateFormat:'MMM YYYY' }}
+      </span>
+
+      <span ng-show="experiment.ongong">
+        &mdash; Still going
+      </span>
+
+      <span ng-hide="experiment.ongong">
+        &mdash; {{experiment.end_date | amDateFormat:'MMM YYYY' }}
+      </span>
+
+      <br />{{experiment.summary}}
     </p>
 
     <div class="list card">

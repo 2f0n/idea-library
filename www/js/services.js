@@ -23,6 +23,9 @@ angular.module('starter.services', [])
   function parseResult(response) {
     return _.chain(response.data).map(function(data) {
       return {
+        start_date: data.field_start_date.length ? data.field_start_date[0].value : '',
+        end_date: data.field_end_date.length ? data.field_end_date[0].value : '',
+        is_ongoing: data.field_ongoing.length ? data.field_ongoing[0].value == "1" : false,
         node_id: data.nid.length ? data.nid[0].value : '',
         location: data.field_location.length ? data.field_location[0].value : '',
         title: data.title.length ? data.title[0].value : '',
