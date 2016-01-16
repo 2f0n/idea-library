@@ -22,17 +22,21 @@ angular.module('starter.services', [])
 .service('experiments', function($http, cache) {
   function parseResult(response) {
     return _.chain(response.data).map(function(data) {
+      return {
+        policy_id: data.field_idea_model.length ? data.field_idea_model[0].target_id: '',
+        node_id: data.nid.length ? data.nid[0].value : '',
+        uuid: data.uuid.length ? data.uuid[0].value : '',
 
-      if(data.body.length && data.title.length && data.field_summary.length && data.field_cover_photo.length && data.uuid.length)
-        return {
-          title: data.title[0].value,
-          summary: data.field_summary[0].value,
-          photo_url: data.field_cover_photo[0].url,
-          uuid: data.uuid[0].value,
-          description: data.body[0].value
-        };
-      else
-        return {};
+        start_date: data.field_start_date.length ? data.field_start_date[0].value : '',
+        end_date: data.field_end_date.length ? data.field_end_date[0].value : '',
+        is_ongoing: data.field_ongoing.length ? data.field_ongoing[0].value == "1" : false,
+
+        location: data.field_location.length ? data.field_location[0].value : '',
+        title: data.title.length ? data.title[0].value : '',
+        summary: data.field_summary.length ? data.field_summary[0].value : '',
+        photo_url: data.field_cover_photo.length ? data.field_cover_photo[0].url : '',
+        description: data.body.length ? data.body[0].value : ''
+      };
 
     }).select('title').value(); 
   }
@@ -43,14 +47,22 @@ angular.module('starter.services', [])
     });
   }
 
+  function where(params) {
+    return all().then(function(experiments) {
+      return _.where(experiments, params);
+    });
+  }
+
   return {
-    all: all
+    all: all,
+    where: where
   };
 })
 
-.service('feature', function($http, cache) {
+.service('feature', function($http, cache, policies) {
   function parseResult(response) {
     return {
+      policy_id: response.data[0].field_idea_model[0].target_id,
       title: response.data[0].title[0].value,
       summary: response.data[0].field_summary[0].value,
       photo_url: response.data[0].field_cover_photo[0].url,
@@ -60,7 +72,15 @@ angular.module('starter.services', [])
 
   function get() {
     return cache('feature', function() {
-      return $http.get('/pantheon/featured/experiments.json').then(parseResult);
+      return $http.get('/pantheon/featured/experiments.json').then(function(result) {
+        var experiment = parseResult(result);
+
+        return policies.find(experiment.policy_id).then(function(policy) {
+          experiment.policy = policy;
+          return experiment;
+        });
+
+      });
     });
   }
 
@@ -73,9 +93,10 @@ angular.module('starter.services', [])
   function parseResult(response) {
     return _.map(response.data, function(data) {
       return {
-        title: data.title[0].value,
-        uuid: data.uuid[0].value,
-        description: data.body[0].value
+        id: data.nid.length ? data.nid[0].value : '',
+        title: data.title.length ? data.title[0].value : '',
+        uuid: data.uuid.length ? data.uuid[0].value : '',
+        description: data.body.length ? data.body[0].value : ''
       };
     });
   }
@@ -84,9 +105,16 @@ angular.module('starter.services', [])
     return cache('policies', function() {
       return $http.get('pantheon/policies.json').then(parseResult);
     });
-  };
+  }
+
+  function find(policy_id) {
+    return all().then(function(policies) {
+      return _.find(policies, { id: policy_id });
+    });
+  }
 
   return {
-    all: all
+    all: all,
+    find: find
   };
 });
