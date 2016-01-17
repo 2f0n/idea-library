@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-.controller('HomeCtrl', function($scope, $http, featured, policies) {
+.controller('HomeCtrl', function($scope, $http, featured, policies, experiments) {
   $scope.featured = featured;
 
   policies.all().then(function(response) {
