@@ -26,6 +26,7 @@ angular.module('starter.services', [])
       if(data.body.length && data.title.length && data.field_summary.length && data.field_cover_photo.length && data.uuid.length)
         return {
           title: data.title[0].value,
+          policy: data.field_idea_model[0].target_id,
           summary: data.field_summary[0].value,
           photo_url: data.field_cover_photo[0].url,
           uuid: data.uuid[0].value,
@@ -74,8 +75,10 @@ angular.module('starter.services', [])
     return _.map(response.data, function(data) {
       return {
         title: data.title[0].value,
+        nid: data.nid[0].value,
         uuid: data.uuid[0].value,
-        description: data.body[0].value
+        description: data.body[0].value,
+        policies: []
       };
     });
   }
