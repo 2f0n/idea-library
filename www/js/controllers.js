@@ -15,11 +15,15 @@ angular.module('starter.controllers', [])
   });
 })
 
-.controller('PolicyCtrl', function($scope, policy, experiments) {
+.controller('PolicyCtrl', function($scope, policy, experiments, twitter) {
   $scope.policy = policy;
 
   experiments.where({ policy_id: policy.id }).then(function(relevant_experiments) {
     $scope.experiments = relevant_experiments;
+  });
+
+  twitter.search(policy.title).then(function(result) {
+    $scope.tweets = result;
   });
 })
 
