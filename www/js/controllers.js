@@ -18,8 +18,12 @@ angular.module('starter.controllers', [])
   };
 })
 
-.controller('CampaignCtrl', function($scope, campaign) {
+.controller('CampaignCtrl', function($scope, campaign, twitter) {
   $scope.campaign = campaign;
+
+  twitter.search(campaign.title).then(function(result) {
+    $scope.tweets = result;
+  });
 })
 
 .controller('SearchCtrl', function($scope) {})

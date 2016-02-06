@@ -1,4 +1,39 @@
 angular.module('starter.services', [])
+.service('twitter', function($q) {
+
+  function search(query) {
+    return $q(function(resolve, reject) {
+      var twitter_api_results = [
+        {
+          text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          user: { name: "Charlie", screen_name: "charlie255" },
+          created_at: "1/8/2014"
+        },
+        {
+          text: "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti.",
+          user: { name: "Edward", screen_name: "100bestEddie" },
+          created_at: "8/1/2015"
+        }
+      ];
+
+      var tweets = _.map(twitter_api_results, function(status) {
+        return {
+          text: status.text,
+          name: status.user.name,
+          handle: status.user.screen_name,
+          date: status.created_at
+        }
+      });
+
+      resolve(tweets);
+    });
+  }
+
+  return {
+    search: search
+  };
+})
+
 .service('cache', function($q) {
   var cache = function() {
     var cached_data = {};
