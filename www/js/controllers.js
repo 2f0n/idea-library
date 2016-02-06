@@ -1,28 +1,27 @@
 angular.module('starter.controllers', [])
 
-.controller('HomeCtrl', function($scope, $http, featured, policies) {
-  $scope.featured = featured;
-
-  policies.all().then(function(response) {
-    $scope.policies = response;
+.controller('HomeCtrl', function($scope, $location, $http, issues) {
+  issues.all().then(function(response) {
+    $scope.issues = response;
   });
+
+  $scope.go = function(path) {
+    $location.path(path);
+  };
 })
 
-.controller('ExperimentCtrl', function($scope, experiment, policies) {
-  $scope.experiment = experiment;
-  policies.find(experiment.policy_id).then(function(policy) {
-    $scope.policy = policy;
-  });
+.controller('IssueCtrl', function($scope, $location, issue) {
+  $scope.issue = issue;
+
+  $scope.go = function(path) {
+    $location.path(path);
+  };
 })
 
-.controller('PolicyCtrl', function($scope, policy, experiments, twitter) {
-  $scope.policy = policy;
+.controller('CampaignCtrl', function($scope, campaign, twitter) {
+  $scope.campaign = campaign;
 
-  experiments.where({ policy_id: policy.id }).then(function(relevant_experiments) {
-    $scope.experiments = relevant_experiments;
-  });
-
-  twitter.search(policy.title).then(function(result) {
+  twitter.search(campaign.title).then(function(result) {
     $scope.tweets = result;
   });
 })

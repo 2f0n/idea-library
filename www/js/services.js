@@ -54,97 +54,113 @@ angular.module('starter.services', [])
   return cache;
 })
 
-.service('experiments', function($http, cache) {
+.service('places', function($http, cache) {
   function parseResult(response) {
     return _.chain(response.data).map(function(data) {
       return {
-        policy_id: data.field_idea_model.length ? data.field_idea_model[0].target_id: '',
-        node_id: data.nid.length ? data.nid[0].value : '',
-        uuid: data.uuid.length ? data.uuid[0].value : '',
-
-        start_date: data.field_start_date.length ? data.field_start_date[0].value : '',
-        end_date: data.field_end_date.length ? data.field_end_date[0].value : '',
-        is_ongoing: data.field_ongoing.length ? data.field_ongoing[0].value == "1" : false,
-
-        location: data.field_location.length ? data.field_location[0].value : '',
-        title: data.title.length ? data.title[0].value : '',
-        summary: data.field_summary.length ? data.field_summary[0].value : '',
-        photo_url: data.field_cover_photo.length ? data.field_cover_photo[0].url : '',
-        description: data.body.length ? data.body[0].value : ''
+        id: data.nid[0].value,
+        title: data.title[0].value
       };
 
-    }).select('title').value(); 
+    }).select('title').value();
   }
 
   function all() {
-    return cache('experiments', function() {
-      return $http.get('/pantheon/experiments.json').then(parseResult)
+    return cache('places', function() {
+      return $http.get('/v1/places').then(parseResult)
+    });
+  }
+
+  function find(id) {
+    return cache('place_' + id, function() {
+      return $http.get('/v1/place/' + id).then(function(result) {
+        return parseResult(result)[0];
+      });
     });
   }
 
   function where(params) {
-    return all().then(function(experiments) {
-      return _.where(experiments, params);
+    return all().then(function(records) {
+      return _.where(records, params);
     });
   }
 
   return {
     all: all,
+    find: find,
     where: where
   };
 })
 
-.service('feature', function($http, cache, policies) {
+.service('campaigns', function($http, cache) {
   function parseResult(response) {
-    return {
-      policy_id: response.data[0].field_idea_model[0].target_id,
-      title: response.data[0].title[0].value,
-      summary: response.data[0].field_summary[0].value,
-      photo_url: response.data[0].field_cover_photo[0].url,
-      uuid: response.data[0].uuid[0].value
-    };
+    return _.chain(response.data).map(function(data) {
+      return {
+        id: data.nid[0].value,
+        title: data.title[0].value,
+        photo: data.field_cover_photo[0].url,
+        place_id: data.field_place[0].target_id,
+        hashtag: data.field_primary_hashtag[0].value
+      };
+
+    }).select('title').value();
   }
 
-  function get() {
-    return cache('feature', function() {
-      return $http.get('/pantheon/featured/experiments.json').then(function(result) {
-        var experiment = parseResult(result);
+  function all() {
+    return cache('campaigns', function() {
+      return $http.get('/v1/campaigns').then(parseResult)
+    });
+  }
 
-        return policies.find(experiment.policy_id).then(function(policy) {
-          experiment.policy = policy;
-          return experiment;
-        });
-
+  function find(id) {
+    return cache('campaign_' + id, function() {
+      return $http.get('/v1/campaign/' + id).then(parseResult).then(function(campaigns) {
+        return campaigns[0];
       });
     });
   }
 
+  function where(params) {
+    return all().then(function(records) {
+      return _.where(records, params);
+    });
+  }
+
+  function for_issue(issue_id) {
+    return cache('issues_' + issue_id, function() {
+      return $http.get('/v1/issue/'+issue_id+'/campaigns').then(parseResult)
+    });
+  }
+
   return {
-    get: get
+    all: all,
+    where: where,
+    for_issue: for_issue,
+    find: find
   };
 })
 
-.service('policies', function($http, cache) {
+.service('issues', function($http, cache) {
   function parseResult(response) {
     return _.map(response.data, function(data) {
       return {
-        id: data.nid.length ? data.nid[0].value : '',
-        title: data.title.length ? data.title[0].value : '',
-        uuid: data.uuid.length ? data.uuid[0].value : '',
-        description: data.body.length ? data.body[0].value : ''
+        id: data.nid[0].value,
+        title: data.title[0].value,
+        uuid: data.uuid[0].value,
+
       };
     });
   }
 
   function all() {
-    return cache('policies', function() {
-      return $http.get('pantheon/policies.json').then(parseResult);
+    return cache('issues', function() {
+      return $http.get('/v1/issues').then(parseResult);
     });
   }
 
-  function find(policy_id) {
+  function find(issue_id) {
     return all().then(function(policies) {
-      return _.find(policies, { id: policy_id });
+      return _.find(policies, { id: issue_id });
     });
   }
 
