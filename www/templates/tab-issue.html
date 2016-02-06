@@ -10,16 +10,15 @@
       </select>
     </label>
     <div
-      class="card"
       ng-click="go('tab/campaigns/{{campaign.id}}')"
-      ng-repeat="campaign in issue.campaigns">
-      <div class="item">
-        <img
-          ng-src="{{campaign.photo}}"
-          style="float:left;"
-          width=100 /> <h3>{{campaign.title}}</h3>
-        <i class="ion-location"> {{campaign.place.title}}</i>
-      </div>
+      ng-repeat="campaign in issue.campaigns"
+      class="item">
+      <img
+        ng-src="{{campaign.photo}}"
+        style="float:left;"
+        width=100 />
+      &nbsp;<i class="ion-flag"> {{campaign.title}}</i><br />
+      &nbsp;<i class="ion-location"> {{campaign.place.title}}</i>
     </div>
   </ion-content>
 </ion-view>

@@ -18,12 +18,24 @@ angular.module('starter.controllers', [])
   };
 })
 
-.controller('CampaignCtrl', function($scope, campaign, twitter) {
+.controller('CampaignCtrl', function($scope, $location, campaign, twitter) {
   $scope.campaign = campaign;
 
   twitter.search(campaign.title).then(function(result) {
     $scope.tweets = result;
   });
+
+  $scope.go = function(path) {
+    $location.path(path);
+  };
+})
+
+.controller('PlaceCtrl', function($scope, $location, place) {
+  $scope.place = place;
+
+  $scope.go = function(path) {
+    $location.path(path);
+  };
 })
 
 .controller('SearchCtrl', function($scope) {})

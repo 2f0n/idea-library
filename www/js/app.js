@@ -75,6 +75,36 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     }
   })
 
+  .state('tab.place', {
+    resolve: {
+      place: function($q, $stateParams, places, campaigns) {
+        return $q.all([
+          places.find($stateParams.id),
+          campaigns.for_place($stateParams.id)
+        ]).then(function(results) {
+          var place = results[0];
+          var campaigns = results[1];
+          place.campaigns = campaigns;
+
+          return $q.all(_.map(campaigns, function(campaign) {
+            return places.find(campaign.place_id).then(function(this_place) {
+              campaign.place = this_place;
+            });
+          })).then(function() {
+            return place;
+          });
+        });
+      }
+    },
+    url: '/places/:id',
+    views: {
+      'tab-home': {
+        templateUrl: 'templates/tab-place.html',
+        controller: 'PlaceCtrl'
+      }
+    }
+  })
+
   .state('tab.home', {
     url: '/home',
     views: {
