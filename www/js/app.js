@@ -24,46 +24,58 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     templateUrl: 'templates/tabs.html'
   })
 
-  .state('tab.policy', {
+  .state('tab.campaign', {
+    url: '/campaigns/:id',
     resolve: {
-      policy: function($stateParams, policies) {
-        return policies.all().then(function(all_policies) {
-          return _.find(all_policies, { uuid: $stateParams.id });
+      campaign: function($stateParams, campaigns, places) {
+        return campaigns.find($stateParams.id).then(function(campaign) {
+          return places.find(campaign.place_id).then(function(place) {
+            campaign.place = place;
+            return campaign
+          });
         });
       }
     },
-    url: '/policy/:id',
     views: {
       'tab-home': {
-        templateUrl: 'templates/tab-policy.html',
-        controller: 'PolicyCtrl'
+        templateUrl: 'templates/tab-campaign.html',
+        controller: 'CampaignCtrl'
       }
     }
   })
 
-  .state('tab.experiment', {
+  .state('tab.issue', {
     resolve: {
-      experiment: function($stateParams, experiments) {
-        return experiments.all().then(function(all_experiments) {
-          return _.find(all_experiments, { uuid: $stateParams.id });
+      issue: function($stateParams, $q, issues, campaigns, places) {
+        return $q(function(resolve, reject) {
+          $q.all([
+            issues.find($stateParams.id),
+            campaigns.for_issue($stateParams.id)
+          ]).then(function(results) {
+            var issue = results[0];
+            issue.campaigns = results[1];
+
+            $q.all(_.map(issue.campaigns, function(campaign) {
+              return places.find(campaign.place_id).then(function(place) {
+                campaign.place =  place;
+              });
+            })).then(function() {
+              resolve(issue);
+            });
+          });
         });
       }
     },
-    url: '/experiment/:id',
+    url: '/issues/:id',
     views: {
       'tab-home': {
-        templateUrl: 'templates/tab-experiment.html',
-        controller: 'ExperimentCtrl'
+        templateUrl: 'templates/tab-issue.html',
+        controller: 'IssueCtrl'
       }
     }
   })
 
   .state('tab.home', {
-    resolve: {
-      featured: function(feature) {
-        return feature.get();
-      }
-    },
     url: '/home',
     views: {
       'tab-home': {

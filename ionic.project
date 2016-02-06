@@ -3,8 +3,8 @@
   "app_id": "",
   "proxies": [
     {
-      "path": "/pantheon",
-      "proxyUrl": "http://live-idealibrary.pantheon.io/"
+      "path": "/v1",
+      "proxyUrl": "http://live-idealibrary.pantheon.io/v1"
     }
   ]
 }

@@ -1,0 +1,52 @@
+<ion-view view-title="?">
+  <ion-content class="padding">
+    <div class="list card">
+      <div class="item item-avatar">
+        <img src="{{campaign.photo}}">
+        <h2>{{campaign.title}}</h2>
+      </div>
+    </div>
+
+    <p>The campaign to bring</p>
+    <h2><i class="ion-clipboard"> The goal of the campaign</i></h2> to
+    <h2><i class="ion-location"> {{campaign.place.title}}</i></h2>
+
+    <p>5 residents  O O O O O</p>
+
+    <strong>Are you a {{campaign.place.title}} resident?</strong>
+    <p>This campaign needs help getting started</p>
+
+    <button class="button button-full button-positive">Join</button>
+    <div class="row">
+      <div class="col col-33">
+        <button class="button button-full button-positive">Like</button>
+      </div>
+      <div class="col col-33">
+        <button class="button button-full button-positive">Follow</button>
+      </div>
+      <div class="col col-33">
+        <button class="button button-full button-positive">Share</button>
+      </div>
+    </div>
+    <div class="list card">
+      <div class="item item-divider">
+        Activity
+      </div>
+      <div class="item" ng-hide="experiments.length">None</div>
+    </div>
+
+    <div class="list card">
+      <div class="item item-divider">
+        Plan
+      </div>
+      <div class="item" ng-hide="experiments.length">None</div>
+    </div>
+
+    <div class="list card">
+      <div class="item item-divider">
+        Contact
+      </div>
+      <div class="item" ng-hide="experiments.length">None</div>
+    </div>
+  </ion-content>
+</ion-view>
