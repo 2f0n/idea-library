@@ -1,0 +1,28 @@
+<ion-view view-title="{{place.title}}">
+  <ion-content class="padding">
+    <h2><i class="ion-location"> {{place.title}}</i></h2>
+
+    <div class="card">
+      <div class="item item-divider">
+        <i class="ion-flag"> Campaigns</i>
+      </div>
+      <div
+        ng-click="go('tab/campaigns/{{campaign.id}}')"
+        ng-repeat="campaign in place.campaigns"
+        class="item">
+        <img
+          ng-src="{{campaign.photo}}"
+          style="float:left;"
+          width=100 />
+        &nbsp;<i class="ion-flag"> {{campaign.title}}</i><br />
+        &nbsp;<i class="ion-location"> {{campaign.place.title}}</i>
+      </div>
+    </div>
+
+    <div style="text-align:center;">
+      <p>Something missing?</p>
+      <p>Feeling inspired?</p>
+      <button class="button button-full button-positive"><i class="ion-flag"> Start a new campaign</i></button>
+    </div>
+  </ion-content>
+</ion-view>

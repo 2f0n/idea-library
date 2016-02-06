@@ -132,10 +132,17 @@ angular.module('starter.services', [])
     });
   }
 
+  function for_place(place_id) {
+    return cache('campaigns_for_place_' + place_id, function() {
+      return $http.get('/v1/place/'+place_id+'/campaigns').then(parseResult);
+    });
+  }
+
   return {
     all: all,
     where: where,
     for_issue: for_issue,
+    for_place: for_place,
     find: find
   };
 })
