@@ -1,0 +1,25 @@
+<ion-view view-title="{{issue.title}}">
+  <ion-content class="padding">
+    <label class="item item-input item-select">
+      <div class="input-label">
+        Campaigns
+      </div>
+      <select>
+        <option>Near Me</option>
+        <option selected>All</option>
+      </select>
+    </label>
+    <div
+      class="card"
+      ng-click="go('tab/campaigns/{{campaign.id}}')"
+      ng-repeat="campaign in issue.campaigns">
+      <div class="item">
+        <img
+          ng-src="{{campaign.photo}}"
+          style="float:left;"
+          width=100 /> <h3>{{campaign.title}}</h3>
+        <i class="ion-location"> {{campaign.place.title}}</i>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>
