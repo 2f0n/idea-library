@@ -128,6 +128,7 @@ angular.module('starter.services', [])
 
   function for_issue(issue_id) {
     return cache('issues_' + issue_id, function() {
+      $http.defaults.useXDomain = true;
       return $http.get('/v1/issue/'+issue_id+'/campaigns').then(parseResult)
     });
   }
@@ -161,6 +162,7 @@ angular.module('starter.services', [])
 
   function all() {
     return cache('issues', function() {
+      $http.defaults.useXDomain = true;
       return $http.get('/v1/issues').then(parseResult);
     });
   }
