@@ -1,4 +1,4 @@
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'angularMoment'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'angularMoment', 'ngCordovaOauth'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -18,7 +18,14 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 
 .config(function($stateProvider, $urlRouterProvider) {
   $stateProvider
-    .state('tab', {
+
+  .state('login', {
+    url: '/login',
+    templateUrl: 'templates/login-default.html',
+    controller: 'LoginCtrl'
+  })
+
+  .state('tab', {
     url: '/tab',
     abstract: true,
     templateUrl: 'templates/tabs.html'

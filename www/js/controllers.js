@@ -1,5 +1,19 @@
 angular.module('starter.controllers', [])
 
+.controller('LoginCtrl', function($scope, $cordovaOauth) {
+  var consumerKey = 'ZQZChwKji7NapGAxQyPzhqrH7';
+  var consumerSecretKey = 'Nu3ks3ln8jH7YyPm2QDuGqbz52ImrktbsyORjSLjeDu8AFXdys';
+
+  $scope.logged_in = false;
+  $scope.login = function() {
+    $cordovaOauth.twitter(consumerKey, consumerSecretKey).then(function(result) {
+      $scope.logged_in = true;
+      $scope.screen_name = result.screen_name
+    }, function(error) {
+    });
+  };
+})
+
 .controller('HomeCtrl', function($scope, $location, $http, issues) {
   issues.all().then(function(response) {
     $scope.issues = response;
