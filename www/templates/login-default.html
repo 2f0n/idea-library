@@ -1,0 +1,9 @@
+<ion-view view-title="Login">
+  <ion-content class="padding">
+    <p ng-show="logged_in">You are logged in, @{{screen_name}}</p>
+    <img
+      ng-hide="logged_in"
+      ng-click="login()"
+      src="https://g.twimg.com/dev/sites/default/files/images_documentation/sign-in-with-twitter-gray.png" />
+  </ion-content>
+</ion-view>
