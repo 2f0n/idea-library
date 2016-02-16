@@ -1,0 +1,21 @@
+<ion-view view-title="Welcome">
+  <ion-content class="padding" on-click="console.log('hey')" >
+  <div
+    ng-repeat="slide in slides track by $index"
+    ng-init="sectionIndex = $index"
+    ng-show="$index == 0">
+    <h1> {{slide.title}}</h1>
+    <div>
+    <img
+      ng-src="{{slide.image}}"
+      style="float:left;clear:both;"
+      /></div><div>
+    <p style="float:left;clear:both;"> {{slide.subtitle}}</p>
+    <div style="float:center; clear:both">
+	    <a style="float:left;"
+	      ng-repeat="slide2 in slides track by $index"
+	      ng-init="activeCircle = $index == sectionIndex"
+	      href="#{{$index + 1}}"><i class="icon icon-large" ng-class="activeCircle ? 'ion-ios-circle-filled' : 'ion-ios-circle-outline'"></i></a>
+    </div>
+  </div>
+</ion-view>

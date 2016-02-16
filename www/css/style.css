@@ -33,3 +33,7 @@ blockquote.twitter-tweet a[href^="https://twitter.com"] {
   color: #666;
   font-size: 12px;
 }
+
+.icon-large {
+  font-size: 36px;
+}

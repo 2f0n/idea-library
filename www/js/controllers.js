@@ -54,4 +54,13 @@ angular.module('starter.controllers', [])
 
 .controller('SearchCtrl', function($scope) {})
 
-.controller('NewsCtrl', function($scope) {});
+.controller('NewsCtrl', function($scope) {})
+
+.controller('TourDefaultCtrl', function($scope) {
+  $scope.slides = [
+    {title: 'Why', image: 'http://i.imgur.com/qaEQ7ik.png', subtitle: 'We have the power to transform our community.'},
+    {title: 'Join', image: 'http://i.imgur.com/qaEQ7ik.png', subtitle: 'Take action in a campaign you care about.'},
+    {title: 'Connect', image: 'http://i.imgur.com/qaEQ7ik.png', subtitle: 'Find like-minded neighbors and work together.'},
+    {title: 'Create', image: 'http://i.imgur.com/qaEQ7ik.png', subtitle: 'Start a new campaign in your neighborhood.'}
+  ];
+});;

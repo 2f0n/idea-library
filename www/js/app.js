@@ -140,6 +140,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
         controller: 'NewsCtrl'
       }
     }
+  })
+
+  .state('tour', {
+    url: '/tour',
+    templateUrl: 'templates/tour-default.html',
+    controller: 'TourDefaultCtrl'
   });
 
   $urlRouterProvider.otherwise('/tab/home');
